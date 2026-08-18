@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Pharmacy Operations</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    p.notice,
+    .notice,
+    .notice:not(.error) {
+      background-color: #059669 !important;
+      background: #059669 !important;
+      border: 3px solid #047857 !important;
+      border-left: 8px solid #064e3b !important;
+      border-radius: 8px !important;
+      color: #ffffff !important;
+      font-weight: 700 !important;
+      font-size: 1.05rem !important;
+      margin: 0 0 1.25rem 0 !important;
+      padding: 0.85rem 1.25rem !important;
+      box-shadow: 0 4px 14px rgba(5, 150, 105, 0.35) !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 0.6rem !important;
+    }
+    p.notice::before,
+    .notice::before {
+      content: '✓' !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background: rgba(255, 255, 255, 0.3) !important;
+      color: #ffffff !important;
+      font-weight: 900 !important;
+      font-size: 1rem !important;
+      width: 1.75rem !important;
+      height: 1.75rem !important;
+      border-radius: 50% !important;
+      flex-shrink: 0 !important;
+    }
+    p.notice.error,
+    .notice.error {
+      background-color: #dc2626 !important;
+      background: #dc2626 !important;
+      border: 3px solid #b91c1c !important;
+      border-left: 8px solid #7f1d1d !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35) !important;
+    }
+    p.notice.error::before,
+    .notice.error::before {
+      content: '✕' !important;
+      background: rgba(255, 255, 255, 0.3) !important;
+      color: #ffffff !important;
+    }
+  </style>
+</head>
+<body>
+  <app-root></app-root>
+</body>
+</html>
