@@ -2,7 +2,21 @@ import { HttpClient, HttpInterceptorFn } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { from, Observable, switchMap, map } from 'rxjs';
 
-const API_URL = 'http://localhost:8091/api';
+export const getApiUrl = (): string => {
+  const customUrl = localStorage.getItem('PHARMACY_API_URL');
+  if (customUrl) return customUrl.replace(/\/+$/, '');
+  const hostname = window.location.hostname;
+  const port = window.location.port;
+  if (hostname === 'localhost' && port === '4200') {
+    return 'http://localhost:8091/api';
+  }
+  if (hostname.includes('github.io')) {
+    return customUrl || 'https://pharmacy-management-backend.onrender.com/api';
+  }
+  return '/api';
+};
+
+export const API_URL = getApiUrl();
 
 export type Role = 'ADMIN' | 'STAFF' | 'PHARMACIST';
 export type PaymentMode = 'CASH' | 'UPI' | 'CARD' | 'CREDIT';
