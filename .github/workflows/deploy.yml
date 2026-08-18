@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -16,9 +16,6 @@ concurrency:
 
 jobs:
   build-and-deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source Code
@@ -28,13 +25,25 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
 
       - name: Install Dependencies
-        run: npm ci
+        run: |
+          rm -f package-lock.json
+          npm install
 
       - name: Build Angular Application
         run: npm run build -- --configuration production --base-href /Pharmacy-management-frontend/
+
+      - name: Add 404.html & .nojekyll for GitHub Pages SPA Routing
+        run: |
+          cp ./dist/pharmacy-frontend/browser/index.html ./dist/pharmacy-frontend/browser/404.html
+          touch ./dist/pharmacy-frontend/browser/.nojekyll
+
+      - name: Deploy to gh-pages branch (Automatic Branch Deploy)
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist/pharmacy-frontend/browser
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -44,6 +53,7 @@ jobs:
         with:
           path: ./dist/pharmacy-frontend/browser
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages (Direct Actions Deploy)
         id: deployment
         uses: actions/deploy-pages@v4
+        continue-on-error: true
